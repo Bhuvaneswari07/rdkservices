@@ -5793,6 +5793,7 @@ namespace WPEFramework {
                     std::cout << "setting the visiblity of " << client << " to " << visible << std::endl;
                     uint32_t status = 0;
                     Exchange::IWebBrowser *browser = mCurrentService->QueryInterfaceByCallsign<Exchange::IWebBrowser>(client);
+		    sleep(20);
                     if (browser != NULL)
                     {
                         status = browser->Visibility(visible ? Exchange::IWebBrowser::VisibilityType::VISIBLE : Exchange::IWebBrowser::VisibilityType::HIDDEN);
