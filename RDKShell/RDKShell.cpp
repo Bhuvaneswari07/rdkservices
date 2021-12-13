@@ -5808,6 +5808,12 @@ namespace WPEFramework {
                     std::cout << "setting the visiblity of " << client << " to " << visible << std::endl;
                     gDestroyMutex.lock();
                     uint32_t status = 0;
+		    gLaunchDestroyMutex.lock();
+                    if (gDestroyApplications.find(client) != gDestroyApplications.end())
+                    {
+                       isApplicationBeingDestroyed = true;
+                    }
+            	    gLaunchDestroyMutex.unlock();
                     if (isApplicationBeingDestroyed)
                     {
                     std::cout << "ignoring setvisibility for " << client << " as it is being destroyed " << std::endl;
@@ -5815,7 +5821,6 @@ namespace WPEFramework {
 		    return false;
                     }
                     Exchange::IWebBrowser *browser = mCurrentService->QueryInterfaceByCallsign<Exchange::IWebBrowser>(client);
-		    sleep(20);
                     if (browser != NULL)
                     {
                         status = browser->Visibility(visible ? Exchange::IWebBrowser::VisibilityType::VISIBLE : Exchange::IWebBrowser::VisibilityType::HIDDEN);
